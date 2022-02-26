@@ -1,0 +1,46 @@
+{
+
+    "manifest_version": 2,
+    "name": "Shop Smart",
+    "version": "1.0",
+    "description": "Think before you buy!",
+    "icons": {
+        "128": "images/logo.png",
+        "48": "images/logo.png",
+        "16": "images/logo.png"
+    },
+    
+    "browser_action":{
+        "default_icon": "images/logo.png",
+        "default_popup": "html/popup.html",
+        "default_title": "Shop Smart"
+    },
+    
+    "options_page" : "html/options.html",
+    
+    "background": {
+        "page" : "html/background.html",
+        "persistent": false
+    
+    },
+    
+    "content_scripts": [
+        {
+            "matches": ["https://www.amazon.in/*","https://www.flipkart.com/*","https://paytmmall.com/*","https://www.ajio.com/*","https://www.tatacliq.com/*","https://www.myntra.com/*"],
+            "js": ["js/content.js"],
+            "css": ["css/content.css"]
+        }
+        
+    ],
+    "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'",
+    "permissions": [
+        "storage",
+        "notifications",
+        "contextMenus",
+        "tabs",
+        "alarms","https://www.amazon.in/*","https://www.flipkart.com/*","https://paytmmall.com/*","https://www.ajio.com/*","https://www.tatacliq.com/*","https://www.myntra.com/*" 
+        ]
+        ,
+        "web_accessible_resources": ["html/content.html"]
+    }
+    
