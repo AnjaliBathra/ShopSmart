@@ -26,9 +26,9 @@
     
     "content_scripts": [
         {
-            "matches": ["https://www.amazon.in/*","https://www.flipkart.com/*","https://paytmmall.com/*","https://www.ajio.com/*","https://www.tatacliq.com/*","https://www.myntra.com/*"],
+            "matches": ["https://www.amazon.com/*","https://www.flipkart.com/*","https://paytmmall.com/*","https://www.ajio.com/*","https://www.tatacliq.com/*","https://www.myntra.com/*"],
             "js": ["js/content.js"],
-            "css": ["css/content.css"]
+            "css": ["css/content.css", "css/check.css"]
         }
         
     ],
@@ -41,6 +41,6 @@
         "alarms","https://www.amazon.in/*","https://www.flipkart.com/*","https://paytmmall.com/*","https://www.ajio.com/*","https://www.tatacliq.com/*","https://www.myntra.com/*" 
         ]
         ,
-        "web_accessible_resources": ["html/content.html"]
+        "web_accessible_resources": ["html/content.html", "html/check.html"]
     }
     
