@@ -1,0 +1,17 @@
+body {
+    width: 300px;
+    height: 285px;
+    padding: 30px;
+}
+
+.button {
+    color: #fff !important;
+}
+
+#smart-wishlist {
+    background-color: #119e95;
+}
+
+#smart-settings {
+    background-color: #363636;
+}
