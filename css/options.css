@@ -1,0 +1,87 @@
+:root{
+    --color-1: #119e95;
+    --color-2: #282c3d;
+	--color-3: #485fc7;
+    --bg-color-1: #fcfcfc;
+    --bg-color-2: #f1f1f1;
+	--font-color: #363636;
+	--danger: #f14668;
+	--light-bg: #fafafa;
+	--border-color: #dbdbdb;
+	--border-radius: 6px;
+	--shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 5%);
+}
+
+nav {
+    padding-top: 10px;
+    margin-bottom: 9px !important;
+}
+
+nav.level {
+    font-size: 17px !important;
+}
+
+section.hero {
+    background-image: linear-gradient(
+        90deg,
+        var(--color-1) 20%,
+        var(--color-3) 70%
+    );
+}
+
+section.wishlist, section.settings .container {
+    padding: 0 40px;
+    margin: 60 150px;
+}
+
+.wishlist .card {
+    border-radius: var(--border-radius);
+    margin: 0 20px;
+}
+.wishlist header {
+    display: block !important;
+    max-height: 65px;
+    overflow: hidden;
+}
+.wishlist .card-image {
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+.wishlist .card img {
+    height: 200px;
+    width: auto;
+}
+.wishlist .subtitle,
+.wishlist .title {
+    color: var(--font-color) !important;
+}
+.wishlist .card-content {
+    margin: 0;
+    padding: 10px 15px 5px 15px;
+}
+.wishlist .card-content div {
+    white-space: nowrap;
+}
+.wishlist .card-content div:nth-of-type(1) {
+    text-decoration: line-through;
+}
+.wishlist .content {
+    padding: 0 15px;
+}
+
+section.settings {
+    background-color: var(--light-bg);
+}
+
+section.settings .title{
+    padding-top: 60px !important;
+}
+
+section.settings .labels {
+    font-weight: bold;
+}
+
+section.settings .item {
+    margin-bottom: 10px;
+}
