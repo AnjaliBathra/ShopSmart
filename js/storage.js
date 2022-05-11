@@ -1,5 +1,5 @@
 var username = "Sasha Moore",
-    max_spend = 150,
+    max_spend = 300,
     linked_accounts = ["Amazon", "Walmart", "SHEIN"],
     wish_list = [
         {
@@ -24,8 +24,8 @@ var username = "Sasha Moore",
             img_url: "https://m.media-amazon.com/images/I/61j6Sivm43L._AC_UY879_.jpg"
         }
     ],
-    spent = 118,
-    saved = 93,
+    spent = 228,
+    saved = 105,
     postponed = 13
   
 // chrome.storage.sync.get(['user'], function(result) {

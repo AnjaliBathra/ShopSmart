@@ -1,10 +1,10 @@
 window.onload = async () => {
-    fetch(chrome.extension.getURL('../html/content.html'), {
+    fetch(chrome.runtime.getURL('../html/content.html'), {
         cache: "no-cache"
     })
         .then(async (response) => response.text())
         .then(async (data) => {
-
+            console.log("CONTENT LOADED")
             modal = document.createElement('div')
             modal.setAttribute('id', 'smart-container')
             modal.innerHTML = data
@@ -13,22 +13,25 @@ window.onload = async () => {
             await loadUserDetails()
 
             // open modal - add to cart or buy now
-            buttonIds = ['#addToCart_feature_div', '#buyNow_feature_div']
+            buttonIds = ['#addToCart_feature_div', '#buyNow_feature_div', "#submit.add-to-cart", "#submit.buy-now"]
             for (val of buttonIds){
-                overlay = document.createElement('div')
-                overlay.innerText = " "
-                overlay.classList.add('invisible_div')
-                document.querySelector(val).style.position = 'relative'
-                document.querySelector(val).appendChild(overlay)
-                overlay.addEventListener('click', (e) => {
-                    document.querySelector('#smart-container').querySelector('.modal').classList.add('is-active')
-                    document.querySelector('#smart-container').querySelector('.modal-content').style.top = '0px'
-                    
-                    inv_divs = Array.prototype.slice.call(document.getElementsByClassName("invisible_div"));
-                    for (i_div of inv_divs){
-                        i_div.style.display = 'none'
-                    }
-                })
+                if (document.querySelector(val)) {
+                    console.log(val)
+                    overlay = document.createElement('div')
+                    overlay.innerText = " "
+                    overlay.classList.add('invisible_div')
+                    document.querySelector(val).style.position = 'relative'
+                    document.querySelector(val).appendChild(overlay)
+                    overlay.addEventListener('click', (e) => {
+                        document.querySelector('#smart-container').querySelector('.modal').classList.add('is-active')
+                        document.querySelector('#smart-container').querySelector('.modal-content').style.top = '0px'
+                        
+                        inv_divs = Array.prototype.slice.call(document.getElementsByClassName("invisible_div"));
+                        for (i_div of inv_divs){
+                            i_div.style.display = 'none'
+                        }
+                    })
+                }
             }
 
             // ignore - close the modal
@@ -40,7 +43,7 @@ window.onload = async () => {
             document.querySelector('#save-smart').addEventListener('click', (e) => {
                 // add to wishlist - storage
                 // possible confetti
-                fetch(chrome.extension.getURL('../html/check.html'), {
+                fetch(chrome.runtime.getURL('../html/check.html'), {
                     cache: "no-cache"
                 })
                     .then(response => response.text())
@@ -79,9 +82,10 @@ async function loadUserDetails(){
     await chrome.storage.sync.get(['user'], function(result) {
         console.log('Value currently is ' + result.user);
 
-        msg = 'Just a gentle reminder that this is your 7th clothing purchase \
-        <a href="https://www.amazon.com/gp/css/order-history" target="_blank">this month</a>. \
-        You have spent <strong>$' + result.user.spending + '</strong> this month, which is $' + (result.user.budget - result.user.spending) + ' below your budget. \
+        msg = 'You are in danger of <strong>going over your budget!</strong>' + 
+        // This will be your 7th purchase \
+        // <a href="https://www.amazon.com/gp/css/order-history" target="_blank">this month</a>. \
+        ' You have spent <strong>$' + result.user.spending + '</strong> this month, which is $' + (result.user.budget - result.user.spending) + ' below your budget. \
         Proceed to checkout only if you think you absolutely need this product at this time.'
 
         document.querySelector('#smart-container').querySelector('.subtitle').innerHTML = msg
@@ -89,56 +93,20 @@ async function loadUserDetails(){
       });
 }
 
-/*
-// access chrome local storage
-chrome.storage.local.get(user, data => {
-    if (data[user]) user_data = data[user];
-})
+function openDashboard () {
+    window.open("http://localhost:3000/admin/dashboard", "_blank");
+}
 
-// listen for changes in chrome local storage
-chrome.storage.onChanged.addListener(function(changes, namespace) {
-    for(key in changes) {
-        console.log(changes, key, namespace)
-      if(key === today) {
-         console.log('Storage Changed', changes[today].newValue.read, changes[today].newValue.unread)
-        var nread = changes[today].newValue.read,
-        nunread = changes[today].newValue.unread,
-        oread = changes[today].oldValue.read,
-        ounread = changes[today].oldValue.unread,
-        saledata = changes[today].newValue.saledata;
-        console.log(saledata)
-        setcount(nunread)
-        if(nunread>0) {
-            //document.querySelector("#notifcontainer").style.left = "-500px";
-        } 
-        if(saledata && saledata.length>0){
-            parsesales(saledata)
-        } else{
-            fetch('https://thuttu.com/storeapi/recentsales.json', {
-                cache: "no-cache"
-            }).then((response) => {
-                return response.json()
-            })
-            .then((res) => {
-                saledata = res;
-                console.log("FET", saledata)
-                if(saledata && saledata.length>0) parsesales(saledata)
-            })
-        }
-       
-       
-      }
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    // communication tree - extecuted on receiving a message from popup.js
+    if (request === 'openDashboard') { // if the message from popup.js is 'dance_on'
+         // your functionality here - insert mushroom dance!
+         console.log("RECEIVED")
+        openDashboard();  
     }
-  });
 
-// receive message from background.js
-chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-        console.log('Msg from background', request, sender, sendResponse)
-        if (request.msg == "newsales") {
-         var data = request.data;
-             parsesales(data); 
-        }
-    });
-
-    */
+    // EXTRA CODE NOT COVERED IN WORKSHOP
+    // send a response back to popup.js that the message has been successfully received
+    sendResponse('success');
+    
+});
